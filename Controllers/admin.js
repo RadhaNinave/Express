@@ -51,17 +51,17 @@ exports.postEditProduct=(req,res,next)=>{
 
 }
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll(products => {
-    if(!products)
-    {
-      return res.redirect('/');
-    }
-    res.render('admin/products', {
-      prods: products,
+  Product.fetchAll().then(([row,fieldData])=>{
+   res.render('admin/products', {
+      prods: row,
       pageTitle: 'Admin Products',
       path: '/admin/products'
     });
-  });
+
+  }).catch(err=>console.log(err))
+   
+    
+  
 };
 exports.postDeleteProduct = (req,res,next)=>{
   const prodId=req.body.productId;
